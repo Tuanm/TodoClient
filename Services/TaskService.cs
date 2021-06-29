@@ -9,28 +9,28 @@ namespace Todo.Services {
             _api = new BaseAPI().WithBaseAddress("http://localhost:6969");
         }
 
-        public List<Task> GetAllTasks() {
+        public virtual List<Task> GetAllTasks() {
             var response = _api.Get<List<Task>>("/tasks");
             if (response == null) response = new List<Task>();
             return response;
         }
 
-        public Task AddTask(Task task) {
+        public virtual Task AddTask(Task task) {
             var response = _api.Post<Task>("/tasks/add", body: TaskDAO.from(task));
             return response;
         }
 
-        public Task GetTask(int id) {
+        public virtual Task GetTask(int id) {
             var response = _api.Get<Task>($"/tasks/{id}");
             return response;
         }
 
-        public Task UpdateTask(Task task) {
+        public virtual Task UpdateTask(Task task) {
             var response = _api.Put<Task>("/tasks/update", body: TaskDAO.from(task));
             return response;
         }
 
-        public void RemoveTask(int id) {
+        public virtual void RemoveTask(int id) {
             _api.Post<object>($"/tasks/remove/{id}");
         }
     }

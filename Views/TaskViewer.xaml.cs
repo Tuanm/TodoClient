@@ -8,7 +8,7 @@ namespace Todo.Views {
     public partial class TaskViewer : Window {
         private int _rows = 3;
         private int _columns = 3;
-        private TaskService _taskService = new TaskService();
+        private TaskService _taskService = new LocalTaskService();
 
         public bool ReminderEnabled { get; set; }
         
@@ -60,7 +60,7 @@ namespace Todo.Views {
             container.Children.Clear();
             AddTaskControl(new NewTaskControl().WithAction((sender, e) => {
                 this.Hide();
-                Utils.Windows.GetNewTaskViewer().WithTask(new Models.Task()).ShowDialog();
+                Utils.Windows.GetNewTaskViewer().WithTask(null).ShowDialog();
                 Utils.Windows.Show(this);
                 LoadTasks();
                 ChangeMenuVisibility();

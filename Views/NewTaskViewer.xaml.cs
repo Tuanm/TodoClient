@@ -5,7 +5,7 @@ using Todo.Services;
 
 namespace Todo.Views {
     public partial class NewTaskViewer : Window {
-        private TaskService _taskService = new TaskService();
+        private TaskService _taskService = new LocalTaskService();
         private Task _task;
         private bool _isUpdate;
 
@@ -21,9 +21,15 @@ namespace Todo.Views {
             LoadInput();
         }
 
-        public NewTaskViewer WithTask(Task task) {
-            _task = task;
-            _isUpdate = true;
+        public NewTaskViewer WithTask(Task task = null) {
+            if (task == null) {
+                _isUpdate = false;
+                _task = new Task();
+            }
+            else {
+                _isUpdate = true;
+                _task = task;
+            }
             LoadInput();
             return this;
         }
@@ -36,11 +42,10 @@ namespace Todo.Views {
         }
 
         private Task LoadTaskFromInput() {
-            return new Task() {
-                Title = (container.Children[0] as InputControl).GetInput(),
-                Details = (container.Children[1] as InputControl).GetInput(),
-                DueDate = System.DateTime.Parse((container.Children[2] as InputControl).GetInput())
-            };
+            _task.Title = (container.Children[0] as InputControl).GetInput();
+            _task.Details = (container.Children[1] as InputControl).GetInput();
+            _task.DueDate = System.DateTime.Parse((container.Children[2] as InputControl).GetInput());
+            return _task;
         }
 
         private void LoadButtons() {

@@ -5,59 +5,83 @@ using Todo.Models;
 
 namespace Todo.Services {
     public class LocalTaskService : TaskService {
+        private static object _lock = new object();
         private List<Task> _tasks;
 
         public static string FileName { get; set; }
 
         public LocalTaskService() {
-            _tasks = new List<Task>();
+            FileName = @"./data/tasks.json";
+            LoadTasks();
         }
 
         private void SaveTasks() {
-            string text = JsonConvert.SerializeObject(_tasks);
+            string text = JsonConvert.SerializeObject(_tasks, Formatting.Indented);
             File.WriteAllText(FileName, text);
         }
 
-        public new List<Task> GetAllTasks() {
+        private void LoadTasks() {
+            if (!File.Exists(FileName)) {
+                File.Create(FileName);
+            }
             string text = File.ReadAllText(FileName);
             _tasks = JsonConvert.DeserializeObject<List<Task>>(text);
+            if (_tasks == null) _tasks = new List<Task>();
+        }
+
+        public override List<Task> GetAllTasks() {
+            lock (_lock) {
+                LoadTasks();
+            }
             return _tasks;
         }
 
-        public new Task AddTask(Task task) {
-            task.Id = System.DateTime.Now.GetHashCode();
-            _tasks.Add(task);
-            SaveTasks();
+        public override Task AddTask(Task task) {
+            lock (_lock) {
+                LoadTasks();
+                task.Id = System.DateTime.Now.GetHashCode();
+                _tasks.Add(task);
+                SaveTasks();
+            }
             return task;
         }
 
-        public new Task GetTask(int id) {
-            foreach (var task in GetAllTasks()) {
-                if (task.Id == id) return task;
+        public override Task GetTask(int id) {
+            lock (_lock) {
+                LoadTasks();
+                foreach (var task in _tasks) {
+                    if (task.Id == id) return task;
+                }
             }
             return null;
         }
 
-        public new Task UpdateTask(Task task) {
-            foreach (var oldTask in GetAllTasks()) {
-                if (oldTask.Id == task.Id) {
-                    _tasks.Remove(oldTask);
-                    AddTask(task);
-                    break;
+        public override Task UpdateTask(Task task) {
+            lock (_lock) {
+                LoadTasks();
+                foreach (var oldTask in _tasks) {
+                    if (oldTask.Id == task.Id) {
+                        _tasks.Remove(oldTask);
+                        _tasks.Add(task);
+                        break;
+                    }
                 }
+                SaveTasks();
             }
-            SaveTasks();
             return task;
         }
 
-        public new void RemoveTask(int id) {
-            foreach (var oldTask in GetAllTasks()) {
-                if (oldTask.Id == id) {
-                    _tasks.Remove(oldTask);
-                    break;
+        public override void RemoveTask(int id) {
+            lock (_lock) {
+                LoadTasks();
+                foreach (var oldTask in _tasks) {
+                    if (oldTask.Id == id) {
+                        _tasks.Remove(oldTask);
+                        break;
+                    }
                 }
+                SaveTasks();
             }
-            SaveTasks();
         }
     }
 }
