@@ -7,9 +7,9 @@
         xmlns:controls="clr-namespace:Todo.Controls"
         AllowsTransparency="True"
         WindowStyle="None" ResizeMode="NoResize"
-        ShowInTaskbar="False"
+        ShowInTaskbar="True"
         WindowStartupLocation="CenterScreen"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown" Closed="Window_Closed">
     <Window.Background>
         <SolidColorBrush Opacity="0.5" Color="Black"/>
     </Window.Background>

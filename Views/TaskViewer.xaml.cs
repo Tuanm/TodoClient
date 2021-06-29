@@ -8,8 +8,10 @@ namespace Todo.Views {
     public partial class TaskViewer : Window {
         private int _rows = 3;
         private int _columns = 3;
-        private TaskService _taskService = new LocalTaskService();
+        private TaskService _taskService = new TaskService();
+        private bool _isClosed = false;
 
+        public bool IsClosed { get { return _isClosed; } }
         public bool ReminderEnabled { get; set; }
         
         public List<UserControl> SelectedTaskControls {
@@ -139,7 +141,11 @@ namespace Todo.Views {
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
-            if (e.Key == System.Windows.Input.Key.Escape) this.Hide();
+            if (e.Key == System.Windows.Input.Key.Escape) this.WindowState = WindowState.Minimized;
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e) {
+            _isClosed = true;
         }
     }
 }

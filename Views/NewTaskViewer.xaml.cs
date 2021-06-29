@@ -5,9 +5,12 @@ using Todo.Services;
 
 namespace Todo.Views {
     public partial class NewTaskViewer : Window {
-        private TaskService _taskService = new LocalTaskService();
+        private TaskService _taskService = new TaskService();
         private Task _task;
         private bool _isUpdate;
+        private bool _isClosed = false;
+
+        public bool IsClosed { get { return _isClosed; } }
 
         public NewTaskViewer() {
             InitializeComponent();
@@ -88,6 +91,10 @@ namespace Todo.Views {
                     );
                     this.Hide();
                 }).WithContent("cancel"));
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e) {
+            _isClosed = true;
         }
     }
 }
