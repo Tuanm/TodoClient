@@ -10,7 +10,14 @@ namespace Todo.Controls {
         private System.Windows.Thickness _selectedMargin;
 
         public Task Task { get { return _task; } }
-        public bool IsSelected { get { return _isSelected; } }
+        public bool IsSelected {
+            get {
+                return _isSelected;
+            }
+            set {
+                ChangeSelection(value);
+            }
+        }
 
         public TaskControl() {
             InitializeComponent();
@@ -62,18 +69,22 @@ namespace Todo.Controls {
             }
         }
 
-        private void container_Loaded(object sender, System.Windows.RoutedEventArgs e) {
-            LoadBackground();
-        }
-
-        private void container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            _isSelected = !_isSelected;
+        private void ChangeSelection(bool isSelected) {
+            _isSelected = isSelected;
             if (_isSelected) {
                 container.Margin = _selectedMargin;
             }
             else {
                 container.Margin = containerShadow.Margin;
             }
+        }
+
+        private void container_Loaded(object sender, System.Windows.RoutedEventArgs e) {
+            LoadBackground();
+        }
+
+        private void container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            ChangeSelection(!_isSelected);
         }
     }
 }

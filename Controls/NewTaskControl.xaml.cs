@@ -2,12 +2,15 @@
 
 namespace Todo.Controls {
     public partial class NewTaskControl : UserControl {
+        public delegate void MouseDownAction(object sender, System.EventArgs e);
+
         public NewTaskControl() {
             InitializeComponent();
         }
 
-        private void container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Utils.Displayer.DisplayNotification("Whoops!", "This feature will be available soon.");
+        public NewTaskControl WithAction(MouseDownAction action) {
+            container.MouseDown += new System.Windows.Input.MouseButtonEventHandler(action);
+            return this;
         }
     }
 }

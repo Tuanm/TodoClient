@@ -63,17 +63,26 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\InputControl.xaml.cs">
+      <DependentUpon>InputControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\NewTaskControl.xaml.cs">
       <DependentUpon>NewTaskControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\NotificationControl.xaml.cs">
       <DependentUpon>NotificationControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SquareControl.xaml.cs">
+      <DependentUpon>SquareControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Services\BaseAPI.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Utils\Colors.cs" />
     <Compile Include="Utils\Displayer.cs" />
+    <Compile Include="Views\NewTaskViewer.xaml.cs">
+      <DependentUpon>NewTaskViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Popup.xaml.cs">
       <DependentUpon>Popup.xaml</DependentUpon>
     </Compile>
@@ -113,6 +122,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\InputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\NewTaskControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,9 +134,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\SquareControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TaskControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NewTaskViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Popup.xaml">
       <SubType>Designer</SubType>

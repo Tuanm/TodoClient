@@ -9,8 +9,7 @@
                 Background="White"
                 CornerRadius="8" BorderThickness="2" BorderBrush="Black"
                 Cursor="Hand"
-                Margin="20,20,5,5"
-                MouseDown="container_MouseDown">
+                Margin="20,20,5,5">
             <TextBlock Grid.Column="0"
                        FontSize="28" FontWeight="Bold"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
