@@ -9,7 +9,9 @@ namespace Todo.Views {
         private int _rows = 3;
         private int _columns = 3;
         private TaskService _taskService = new TaskService();
+        private bool _isClosed = false;
 
+        public bool IsClosed { get { return _isClosed; } }
         public bool ReminderEnabled { get; set; }
         
         public List<UserControl> SelectedTaskControls {
@@ -60,7 +62,7 @@ namespace Todo.Views {
             container.Children.Clear();
             AddTaskControl(new NewTaskControl().WithAction((sender, e) => {
                 this.Hide();
-                Utils.Windows.GetNewTaskViewer().WithTask(new Models.Task()).ShowDialog();
+                Utils.Windows.GetNewTaskViewer().WithTask(null).ShowDialog();
                 Utils.Windows.Show(this);
                 LoadTasks();
                 ChangeMenuVisibility();
@@ -139,7 +141,11 @@ namespace Todo.Views {
         }
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
-            if (e.Key == System.Windows.Input.Key.Escape) this.Hide();
+            if (e.Key == System.Windows.Input.Key.Escape) this.WindowState = WindowState.Minimized;
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e) {
+            _isClosed = true;
         }
     }
 }

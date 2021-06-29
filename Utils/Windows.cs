@@ -7,9 +7,9 @@ namespace Todo.Utils {
         private static NewTaskViewer _newTaskViewer;
 
         public static TaskViewer GetTaskViewer(bool isReminderEnabled = true) {
-            if (_taskViewer == null) {
+            if (_taskViewer == null || _taskViewer.IsClosed) {
                 lock (_lock) {
-                    if (_taskViewer == null) {
+                    if (_taskViewer == null || _taskViewer.IsClosed) {
                         _taskViewer = new TaskViewer() {
                             ReminderEnabled = isReminderEnabled
                         };
@@ -20,13 +20,14 @@ namespace Todo.Utils {
         }
 
         public static NewTaskViewer GetNewTaskViewer() {
-            if (_newTaskViewer == null) {
+            if (_newTaskViewer == null || _newTaskViewer.IsClosed) {
                 lock (_lock) {
-                    if (_newTaskViewer == null) {
+                    if (_newTaskViewer == null || _newTaskViewer.IsClosed) {
                         _newTaskViewer = new NewTaskViewer();
                     }
                 }
             }
+            
             return _newTaskViewer;
         }
 

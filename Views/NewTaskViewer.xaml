@@ -8,7 +8,8 @@
         AllowsTransparency="True"
         WindowStyle="None" ResizeMode="NoResize"
         ShowInTaskbar="False"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Closed="Window_Closed">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"/>
     </Window.Background>

@@ -8,6 +8,9 @@ namespace Todo.Views {
         private TaskService _taskService = new TaskService();
         private Task _task;
         private bool _isUpdate;
+        private bool _isClosed = false;
+
+        public bool IsClosed { get { return _isClosed; } }
 
         public NewTaskViewer() {
             InitializeComponent();
@@ -21,9 +24,15 @@ namespace Todo.Views {
             LoadInput();
         }
 
-        public NewTaskViewer WithTask(Task task) {
-            _task = task;
-            _isUpdate = true;
+        public NewTaskViewer WithTask(Task task = null) {
+            if (task == null) {
+                _isUpdate = false;
+                _task = new Task();
+            }
+            else {
+                _isUpdate = true;
+                _task = task;
+            }
             LoadInput();
             return this;
         }
@@ -36,11 +45,10 @@ namespace Todo.Views {
         }
 
         private Task LoadTaskFromInput() {
-            return new Task() {
-                Title = (container.Children[0] as InputControl).GetInput(),
-                Details = (container.Children[1] as InputControl).GetInput(),
-                DueDate = System.DateTime.Parse((container.Children[2] as InputControl).GetInput())
-            };
+            _task.Title = (container.Children[0] as InputControl).GetInput();
+            _task.Details = (container.Children[1] as InputControl).GetInput();
+            _task.DueDate = System.DateTime.Parse((container.Children[2] as InputControl).GetInput());
+            return _task;
         }
 
         private void LoadButtons() {
@@ -83,6 +91,10 @@ namespace Todo.Views {
                     );
                     this.Hide();
                 }).WithContent("cancel"));
+        }
+
+        private void Window_Closed(object sender, System.EventArgs e) {
+            _isClosed = true;
         }
     }
 }
