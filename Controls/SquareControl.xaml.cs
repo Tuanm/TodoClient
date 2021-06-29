@@ -5,8 +5,6 @@ namespace Todo.Controls {
     public partial class SquareControl : UserControl {
         private Thickness _originMargin;
 
-        public delegate void MouseDownAction(object sender, System.EventArgs e);
-
         public SquareControl() {
             InitializeComponent();
             ConfigureStyles();
@@ -28,7 +26,7 @@ namespace Todo.Controls {
             return this;
         }
 
-        public SquareControl WithAction(MouseDownAction action) {
+        public SquareControl WithAction(Utils.MouseDownAction action) {
             if (action != null) {
                 container.MouseDown += new System.Windows.Input.MouseButtonEventHandler(action);
             }

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Todo.Views"
         AllowsTransparency="True"
-        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
-        Topmost="True" ShowInTaskbar="False">
+        WindowStyle="None" ResizeMode="NoResize"
+        Topmost="True" ShowInTaskbar="False" ShowActivated="False"
+        WindowStartupLocation="Manual">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"/>
     </Window.Background>

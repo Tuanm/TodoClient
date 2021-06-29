@@ -7,14 +7,16 @@
         xmlns:controls="clr-namespace:Todo.Controls"
         AllowsTransparency="True"
         WindowStyle="None" ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
     <Window.Background>
         <SolidColorBrush Opacity="0.5" Color="Black"/>
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Name="viewer" Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">

@@ -39,5 +39,9 @@ namespace Todo.Controls {
         private void container_LostFocus(object sender, RoutedEventArgs e) {
             container.Margin = containerShadow.Margin;
         }
+
+        private void container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            input.Focus();
+        }
     }
 }

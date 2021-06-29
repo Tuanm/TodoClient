@@ -7,6 +7,7 @@
         xmlns:controls="clr-namespace:Todo.Controls"
         AllowsTransparency="True"
         WindowStyle="None" ResizeMode="NoResize"
+        ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"/>

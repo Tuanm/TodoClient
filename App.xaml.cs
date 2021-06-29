@@ -2,19 +2,16 @@
 
 namespace Todo {
     public partial class App : Application {
-        private Window _window;
-
         private void Application_Startup(object sender, StartupEventArgs e) {
             try {
-                LoadWindow();
+                Utils.Displayer.Limit = 5;
+                Utils.Windows.GetTaskViewer().WithGrid(10, 3).LoadTasks().Show();
             } catch (System.Exception ex) {
-                Utils.Displayer.DisplayNotification("Whoops!", ex.Message);
+                Utils.Displayer.PushNotification(
+                    title: "Whoops!",
+                    message: ex.Message,
+                    color: Utils.Colors.White);
             }
-         }
-
-        public void LoadWindow() {
-            _window = new Views.TaskViewer().WithGrid(10, 3).LoadTasks();
-            if (!_window.IsVisible) _window.Show();
         }
     }
 }

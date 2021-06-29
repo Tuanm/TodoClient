@@ -51,33 +51,37 @@ namespace Todo.Views {
                         _task = LoadTaskFromInput();
                         if (_isUpdate) {
                             _taskService.UpdateTask(_task);
-                            Utils.Displayer.DisplayNotification(
-                                "Saved!",
-                                "Let's finish this task."
+                            Utils.Displayer.PushNotification(
+                                title: "Saved!",
+                                message: "Let's finish this task.",
+                                color: Utils.Colors.White
                             );
                         }
                         else {
                             _taskService.AddTask(_task);
-                            Utils.Displayer.DisplayNotification(
-                                "Added!",
-                                "Let's finish this task."
+                            Utils.Displayer.PushNotification(
+                                title: "Added!",
+                                message: "Let's finish this task.",
+                                color: Utils.Colors.White
                             );
                         }
                     } catch (System.Exception ex) {
-                        Utils.Displayer.DisplayNotification(
-                            "Whoops!",
-                            ex.Message
+                        Utils.Displayer.PushNotification(
+                            title: "Whoops!",
+                            message: ex.Message,
+                            color: Utils.Colors.White
                         );
                     }
-                    this.Close();
+                    this.Hide();
                 }).WithContent("ok"));
             menu.Children.Add(new SquareControl().WithBackground(Utils.Colors.Yellow)
                 .WithAction((sender, e) => {
-                    Utils.Displayer.DisplayNotification(
-                        "Canceled!",
-                        "You still have to finish this task."
+                    Utils.Displayer.PushNotification(
+                        title: "Canceled!",
+                        message: "Hmm.",
+                        color: Utils.Colors.White
                     );
-                    this.Close();
+                    this.Hide();
                 }).WithContent("cancel"));
         }
     }

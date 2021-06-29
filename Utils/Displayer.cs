@@ -1,19 +1,31 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace Todo.Utils {
     public class Displayer {
-        public delegate void MouseDownAction(object sender, EventArgs e);
+        private static object _lock = new object();
+        private static int _count = 0;
 
-        public static void DisplayNotification(string title, string message, MouseDownAction action = null) {
+        public static int Limit = 10;
+
+        public static void PushNotification(string title, string message,
+            System.Windows.Media.Color color, MouseDownAction action = null) {
             var popup = new Views.Popup(new Controls.NotificationControl()
                 .WithContent(new Models.Notification() {
                     Title = title,
                     Message = message
-                }).WithBackground(Colors.White))
+                }).WithBackground(color))
                 .WithSize(300, 100).Fade().FloatUp();
-            popup.Show();
             if (action != null) {
                 popup.MouseDown += new System.Windows.Input.MouseButtonEventHandler(action);
+            }
+            if (_count < Limit) {
+                _count++;
+                lock (_lock) {
+                    popup.Show();
+                    _count--;
+                }
             }
         }
     }

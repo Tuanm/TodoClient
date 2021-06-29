@@ -3,7 +3,7 @@ using Todo.Models;
 
 namespace Todo.Services {
     public class TaskService {
-        private BaseAPI _api;
+        protected BaseAPI _api;
 
         public TaskService() {
             _api = new BaseAPI().WithBaseAddress("http://localhost:6969");

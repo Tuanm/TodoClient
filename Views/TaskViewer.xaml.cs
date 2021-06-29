@@ -9,6 +9,8 @@ namespace Todo.Views {
         private int _rows = 3;
         private int _columns = 3;
         private TaskService _taskService = new TaskService();
+
+        public bool ReminderEnabled { get; set; }
         
         public List<UserControl> SelectedTaskControls {
             get {
@@ -58,13 +60,18 @@ namespace Todo.Views {
             container.Children.Clear();
             AddTaskControl(new NewTaskControl().WithAction((sender, e) => {
                 this.Hide();
-                new NewTaskViewer().ShowDialog();
-                this.Show();
+                Utils.Windows.GetNewTaskViewer().WithTask(new Models.Task()).ShowDialog();
+                Utils.Windows.Show(this);
                 LoadTasks();
                 ChangeMenuVisibility();
             }));
             foreach (var task in _taskService.GetAllTasks()) {
-                var taskControl = new TaskControl().WithTask(task).WithTicker();
+                var taskControl = new TaskControl().WithTask(task)
+                    .WithBackgroundLoader();
+                if (ReminderEnabled) taskControl.WithReminder((sender, e) => {
+                    Utils.Windows.Show(this);
+                    this.Focus();
+                });
                 AddTaskControl(taskControl);
             }
             return this;
@@ -82,9 +89,10 @@ namespace Todo.Views {
                     }
                     LoadTasks();
                     ChangeMenuVisibility();
-                    Utils.Displayer.DisplayNotification(
-                        "Done!",
-                        "Very good."
+                    Utils.Displayer.PushNotification(
+                        title: "Done!",
+                        message: "Very good.",
+                        color: Utils.Colors.White
                     );
                 }).WithContent("ok"));
             menu.Children.Add(new SquareControl().WithBackground(Utils.Colors.Red)
@@ -95,24 +103,26 @@ namespace Todo.Views {
                     }
                     LoadTasks();
                     ChangeMenuVisibility();
-                    Utils.Displayer.DisplayNotification(
-                        "Deleted!",
-                        "Maybe you have finished them."
+                    Utils.Displayer.PushNotification(
+                        title: "Deleted!",
+                        message: "Maybe you have finished them.",
+                        color: Utils.Colors.White
                     );
                 }).WithContent("del"));
             menu.Children.Add(new SquareControl().WithBackground(Utils.Colors.Yellow)
                 .WithAction((sender, e) => {
                     if (this.SelectedTaskControls.Count != 1) {
-                        Utils.Displayer.DisplayNotification(
-                            "Whoops!",
-                            "Just select ONE task to edit."
+                        Utils.Displayer.PushNotification(
+                            title: "Whoops!",
+                            message: "Just select ONE task to edit.",
+                            color: Utils.Colors.White
                         );
                     }
                     else {
                         this.Hide();
                         var selectedTask = (this.SelectedTaskControls[0] as TaskControl).Task;
-                        new NewTaskViewer().WithTask(selectedTask).ShowDialog();
-                        this.Show();
+                        Utils.Windows.GetNewTaskViewer().WithTask(selectedTask).ShowDialog();
+                        Utils.Windows.Show(this);
                     }
                     LoadTasks();
                     ChangeMenuVisibility();
@@ -126,6 +136,10 @@ namespace Todo.Views {
 
         private void container_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             ChangeMenuVisibility();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {
+            if (e.Key == System.Windows.Input.Key.Escape) this.Hide();
         }
     }
 }
