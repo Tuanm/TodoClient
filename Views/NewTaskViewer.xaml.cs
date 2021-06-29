@@ -5,7 +5,7 @@ using Todo.Services;
 
 namespace Todo.Views {
     public partial class NewTaskViewer : Window {
-        private TaskService _taskService = new TaskService();
+        private TaskService _taskService = new LocalTaskService();
         private Task _task;
         private bool _isUpdate;
         private bool _isClosed = false;
