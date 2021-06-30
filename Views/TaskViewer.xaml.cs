@@ -9,7 +9,7 @@ namespace Todo.Views {
     public partial class TaskViewer : Window {
         private int _rows = 3;
         private int _columns = 3;
-        private TaskService _taskService = new LocalTaskService();
+        private TaskService _taskService = new TaskService();
         private bool _isClosed = false;
 
         public bool IsClosed { get { return _isClosed; } }
