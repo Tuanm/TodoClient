@@ -82,6 +82,7 @@
     <Compile Include="Utils\Actions.cs" />
     <Compile Include="Utils\Colors.cs" />
     <Compile Include="Utils\Displayer.cs" />
+    <Compile Include="Utils\Tasks.cs" />
     <Compile Include="Utils\Windows.cs" />
     <Compile Include="Views\NewTaskViewer.xaml.cs">
       <DependentUpon>NewTaskViewer.xaml</DependentUpon>

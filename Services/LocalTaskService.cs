@@ -11,7 +11,7 @@ namespace Todo.Services {
         public static string FileName { get; set; }
 
         public LocalTaskService() {
-            FileName = @"./data/tasks.json";
+            FileName = @"./tasks.json";
             LoadTasks();
         }
 
@@ -21,10 +21,8 @@ namespace Todo.Services {
         }
 
         private void LoadTasks() {
-            if (!File.Exists(FileName)) {
-                File.Create(FileName);
-            }
-            string text = File.ReadAllText(FileName);
+            if (!File.Exists(FileName)) File.Create(FileName);
+            var text = File.ReadAllText(FileName);
             _tasks = JsonConvert.DeserializeObject<List<Task>>(text);
             if (_tasks == null) _tasks = new List<Task>();
         }

@@ -12,7 +12,7 @@ namespace Todo.Utils {
                     if (_taskViewer == null || _taskViewer.IsClosed) {
                         _taskViewer = new TaskViewer() {
                             ReminderEnabled = isReminderEnabled
-                        }.WithGrid(10, 3).LoadTasks();
+                        }.WithGrid(10, 3).LoadTasks().WithReminder();
                     }
                 }
             }
@@ -27,7 +27,6 @@ namespace Todo.Utils {
                     }
                 }
             }
-            
             return _newTaskViewer;
         }
 

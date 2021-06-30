@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:Todo.Views"
         xmlns:controls="clr-namespace:Todo.Controls"
         AllowsTransparency="True"
-        WindowStyle="None" ResizeMode="NoResize"
+        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         Closed="Window_Closed">
     <Window.Background>
-        <SolidColorBrush Opacity="0" Color="Black"/>
+        <SolidColorBrush Opacity="0.5" Color="Black"/>
     </Window.Background>
-    <Grid>
+    <Grid VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

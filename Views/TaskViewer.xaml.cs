@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using Todo.Controls;
+using Todo.Models;
 using Todo.Services;
 
 namespace Todo.Views {
@@ -70,12 +71,68 @@ namespace Todo.Views {
             foreach (var task in _taskService.GetAllTasks()) {
                 var taskControl = new TaskControl().WithTask(task)
                     .WithBackgroundLoader();
-                if (ReminderEnabled) taskControl.WithReminder((sender, e) => {
-                    Utils.Windows.Show(this);
-                    this.Focus();
-                });
                 AddTaskControl(taskControl);
             }
+            return this;
+        }
+
+        public TaskViewer WithReminder() {
+            var whiteTasks = new List<Task>();
+            var greenTasks = new List<Task>();
+            var grayTasks = new List<Task>();
+            var redTasks = new List<Task>();
+            var yellowTasks = new List<Task>();
+            var timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = System.TimeSpan.FromSeconds(2.5); // reload tasks' status every 2.5 seconds
+            timer.Tick += (sender, e) => {
+                whiteTasks.Clear();
+                greenTasks.Clear();
+                grayTasks.Clear();
+                redTasks.Clear();
+                yellowTasks.Clear();
+                if (ReminderEnabled) {
+                    foreach (var control in container.Children) {
+                        if (control is TaskControl) {
+                            var task = (control as TaskControl).Task;
+                            var color = Utils.Tasks.GetColorOf(task);
+                            if (color == Utils.Colors.White) whiteTasks.Add(task);
+                            else if (color == Utils.Colors.Green) greenTasks.Add(task);
+                            else if (color == Utils.Colors.Gray) grayTasks.Add(task);
+                            else if (color == Utils.Colors.Red) redTasks.Add(task);
+                            else if (color == Utils.Colors.Yellow) yellowTasks.Add(task);
+                        }
+                    }
+                }
+            };
+            timer.Start();
+
+            Utils.MouseDownAction action = (sender, e) => {
+                Utils.Windows.Show(this);
+                this.Focus();
+            };
+
+            var whiteTimer = Utils.Tasks.GetTimerWith(600, (sender, e) => { });
+            var greenTimer = Utils.Tasks.GetTimerWith(600, (sender, e) => { });
+            var grayTimer = Utils.Tasks.GetTimerWith(600, (sender, e) => { });
+            var redTimer = Utils.Tasks.GetTimerWith(5, (sender, e) => {
+                var redCount = redTasks.Count;
+                if (redCount > 0) {
+                    Utils.Displayer.PushNotification(
+                        title: "Reminder",
+                        message: $"You have {redCount} "
+                            + (redCount > 1 ? "tasks" : "task")
+                            + " closed to " 
+                            + (redCount > 1 ? "their" : "its")
+                            + " due date.",
+                        color: Utils.Colors.Red,
+                        action: action
+                    );
+                }
+            });
+            var yellowTimer = Utils.Tasks.GetTimerWith(600, (sender, e) => { });
+
+            redTimer.Start();
+
             return this;
         }
 

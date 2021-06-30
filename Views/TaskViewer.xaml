@@ -6,17 +6,18 @@
         xmlns:local="clr-namespace:Todo.Views"
         xmlns:controls="clr-namespace:Todo.Controls"
         AllowsTransparency="True"
-        WindowStyle="None" ResizeMode="NoResize"
+        WindowStyle="None" ResizeMode="NoResize" WindowState="Normal"
         ShowInTaskbar="True"
         WindowStartupLocation="CenterScreen"
         KeyDown="Window_KeyDown" Closed="Window_Closed">
     <Window.Background>
         <SolidColorBrush Opacity="0.5" Color="Black"/>
     </Window.Background>
-    <Grid>
+    <Grid MaxWidth="1200"
+          VerticalAlignment="Center">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Name="viewer" Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">
