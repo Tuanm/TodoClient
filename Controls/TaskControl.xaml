@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Todo.Controls.TaskControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Todo.Controls">
+    <Grid Width="Auto" Height="200">
+        <Border Name="containerShadow"
+                Background="White"
+                CornerRadius="8" BorderThickness="2" BorderBrush="Black"
+                Margin="20,20,5,5"/>
+        <Border Name="container"
+                CornerRadius="8" BorderThickness="2" BorderBrush="Black"
+                Margin="5,5,20,20"
+                Cursor="Hand"
+                MouseDown="container_MouseDown"  Loaded="container_Loaded">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock Grid.Column="0" Name="title"
+                               FontSize="18" FontWeight="Bold" TextWrapping="WrapWithOverflow"
+                               Margin="15,10,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding Title}"/>
+                    <TextBlock Grid.Column="1" Name="dueDateTime"
+                               FontSize="12"
+                               Margin="0,10,15,0"
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Text="{Binding DueDate}"/>
+                </Grid>
+                <TextBlock Grid.Row="1" Name="details"
+                           FontSize="16" TextWrapping="Wrap"
+                           Margin="15,10,15,10"
+                           Text="{Binding Details}"/>
+                <TextBlock Grid.Row="2" Name="id"
+                           FontSize="12" FontWeight="Bold"
+                           Margin="0,0,15,10"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           Text="{Binding Id}"/>
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
