@@ -8,7 +8,7 @@ namespace Todo {
     public partial class App : Application {
         private void Application_Startup(object sender, StartupEventArgs e) {
             try {
-                Utils.Services.NoServer = false; // no server
+                Utils.Services.NoServer = true; // no server
                 ConfigureSettings();
                 this.MainWindow = Utils.Windows.GetTaskViewer().WithReminder();
                 this.MainWindow.Show();
